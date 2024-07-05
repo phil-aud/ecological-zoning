@@ -1,0 +1,61 @@
+/**** Start of imports. If edited, may not auto-convert in the playground. ****/
+var ipccClimates = ee.FeatureCollection("users/philipaudebert/IPCC/Corrigenda/ipcc_climate_1985-2015_corrigenda_vector"),
+    gez2023 = ee.Image("users/philipaudebert/gez2023"),
+    gezLV3 = ee.Image("users/philipaudebert/hlz_level3"),
+    geometry = 
+    /* color: #d63000 */
+    /* shown: false */
+    /* displayProperties: [
+      {
+        "type": "rectangle"
+      }
+    ] */
+    ee.Geometry.Polygon(
+        [[[-174.25860778055736, 83.73780249387653],
+          [-174.25860778055736, -77.49807778712224],
+          [177.30389221944264, -77.49807778712224],
+          [177.30389221944264, 83.73780249387653]]], null, false),
+    ipcc2023 = ee.Image("users/philipaudebert/ipcc2023_corrected"),
+    gez2015 = ee.Image("users/philipaudebert/FAO/GEZ/GEZ2023/hlz_level3_1986_2015"),
+    gez2020 = ee.Image("users/philipaudebert/FAO/GEZ/GEZ2023/hlz_level3_1991_2020");
+/***** End of imports. If edited, may not auto-convert in the playground. *****/
+
+/*print(gezLV3.eq(111).multiply(ee.Image.pixelArea().divide(1e6)).reduceRegion({
+  reducer: ee.Reducer.sum(),
+  geometry: geometry, 
+  scale: 1000,
+  maxPixels: 1e13}))*/
+
+var featureCollection = ipcc2023.eq(12).mask(ipcc2023.eq(12).eq(1)).reduceToVectors({
+  geometry: geometry,
+  scale: 1000,
+  maxPixels: 1e13
+});
+
+
+Map.addLayer(featureCollection);
+/*
+Map.addLayer(ipcc2023.eq(3))
+Map.addLayer(gezLV3.eq(171))
+Map.addLayer(ipcc2023.eq(2).multiply(gezLV3.eq(151)), {palette: ['black', 'pink']})
+
+
+var list = ee.List.sequence(1, 12, 1);
+var s = list.map(function (number) {
+  var x = ee.Image(ee.Number(number));
+  return x
+});
+
+*/
+
+var climateZonesGEZs = gez2015.reduceRegion({
+  reducer: ee.Reducer.frequencyHistogram(),
+  geometry: featureCollection.geometry(),
+  scale: 1000,
+  maxPixels: 1e13
+});
+
+print(climateZonesGEZs);
+
+
+//Map.addLayer(gezLV3.eq(112), {palette: ['black', 'red']})

@@ -1,0 +1,859 @@
+var hlzIII = ee.Image("users/philipaudebert/FAO/GEZ/GEZ2023/hlz_level3_1991_2020");
+
+var hlzII = hlzIII.remap([
+  111, 112, 113, 114, 115, 116, 117, 118, 
+  121, 122, 123, 124, 125, 126, 127, 
+  131, 132, 133, 134, 135, 136, 137, 
+  141, 142, 143, 144, 145, 146, 
+  151, 152, 153, 154, 155, 
+  161, 162, 163, 164, 
+  171, 
+  211, 212, 213, 214, 215, 216, 217, 
+  221, 222, 223, 224, 225, 226, 227, 
+  231, 232, 233, 234, 235, 236, 
+  241, 242, 243, 244, 245, 
+  251, 252, 253, 254, 
+  261, 
+  311, 312, 313, 314, 315, 316, 317, 
+  321, 322, 323, 324, 325, 326,///
+  331, 332, 333, 334, 335, 
+  341, 342, 343, 344, 
+  351, 
+  411, 412, 413, 414, 415, 416, 
+  421, 422, 423, 424, 425, 
+  431, 432, 433, 434, 
+  441, 
+  511, 512, 513, 514, 515, 
+  521, 522, 523, 524, 
+  531, 
+  611, 612, 613, 614, 
+  621, 
+  711
+  ],
+  [
+  11, 12, 13, 14, 15, 16, 17, 18, 
+  21, 22, 23, 24, 25, 26, 27, 
+  31, 32, 33, 34, 35, 36, 37, 
+  41, 42, 43, 44, 45, 46, 
+  51, 52, 53, 54, 55, 
+  61, 62, 63, 64, 
+  71, 
+  21, 22, 23, 24, 25, 26, 27, 
+  31, 32, 33, 34, 35, 36, 37, 
+  41, 42, 43, 44, 45, 46, 
+  51, 52, 53, 54, 55, 
+  61, 62, 63, 64, 
+  71, 
+  31, 32, 33, 34, 35, 36, 37, 
+  41, 42, 43, 44, 45, 46,
+  51, 52, 53, 54, 55, 
+  61, 62, 63, 64, 
+  71, 
+  41, 42, 43, 44, 45, 46, 
+  51, 52, 53, 54, 55, 
+  61, 62, 63, 64, 
+  71, 
+  51, 52, 53, 54, 55, 
+  61, 62, 63, 64, 
+  71, 
+  61, 62, 63, 64, 
+  71, 
+  71
+  ]
+);
+
+var hlzI = hlzII.remap([
+  11, 12, 13, 14, 15, 16, 17, 18, 
+  21, 22, 23, 24, 25, 26, 27, 
+  31, 32, 33, 34, 35, 36, 37, 
+  41, 42, 43, 44, 45, 46, 
+  51, 52, 53, 54, 55, 
+  61, 62, 63, 64, 
+  71, 
+  21, 22, 23, 24, 25, 26, 27, 
+  31, 32, 33, 34, 35, 36, 37, 
+  41, 42, 43, 44, 45, 46, 
+  51, 52, 53, 54, 55, 
+  61, 62, 63, 64, 
+  71, 
+  31, 32, 33, 34, 35, 36, 37, 
+  41, 42, 43, 44, 45, 46,
+  51, 52, 53, 54, 55, 
+  61, 62, 63, 64, 
+  71, 
+  41, 42, 43, 44, 45, 46, 
+  51, 52, 53, 54, 55, 
+  61, 62, 63, 64, 
+  71, 
+  51, 52, 53, 54, 55, 
+  61, 62, 63, 64, 
+  71, 
+  61, 62, 63, 64, 
+  71, 
+  71
+  ],
+  [
+  11, 11, 12, 13, 13, 14, 14, 15,
+  21, 21, 22, 23, 24, 24, 25,
+  31, 31, 32, 33, 34, 34, 35,
+  41, 41, 42, 43, 43, 44,
+  51, 51, 52, 53, 54,
+  61, 61, 62, 63, 
+  71,
+  21, 21, 22, 23, 24, 24, 25,
+  31, 31, 32, 33, 34, 34, 35,
+  41, 41, 42, 43, 43, 44,
+  51, 51, 52, 53, 54,
+  61, 61, 62, 63, 
+  71,
+  31, 31, 32, 33, 34, 34, 35,
+  41, 41, 42, 43, 43, 44,
+  51, 51, 52, 53, 54,
+  61, 61, 62, 63, 
+  71,
+  41, 41, 42, 43, 43, 44,
+  51, 51, 52, 53, 54,
+  61, 61, 62, 63, 
+  71,
+  51, 51, 52, 53, 54,
+  61, 61, 62, 63, 
+  71,
+  61, 61, 62, 63, 
+  71,
+  71,
+  ]
+);
+
+
+
+var labelMap_hlzIII = {
+  111: 'Tropical Rain Forest',
+  112: 'Tropical Wet Forest',
+  113: 'Tropical Moist Forest',
+  114: 'Tropical Dry Forest',
+  115: 'Tropical Very Dry Forest',
+  116: 'Tropical Thorn Woodland',
+  117: 'Tropical Desert Scrub',
+  118: 'Tropical Desert',
+  121: 'Tropical Premontane Rain Forest',
+  122: 'Tropical Premontane Wet Forest',
+  123: 'Tropical Premontane Moist Forest',
+  124: 'Tropical Premontane Dry Forest',
+  125: 'Tropical Premontane Thorn Woodland',
+  126: 'Tropical Premontane Desert Scrub',
+  127: 'Tropical Premontane Desert',
+  131: 'Tropical Lower Montane Rain Forest',
+  132: 'Tropical Lower Montane Wet Forest',
+  133: 'Tropical Lower Montane Moist Forest',
+  134: 'Tropical Lower Montane Dry Forest',
+  135: 'Tropical Lower Montane Thorn Woodland',
+  136: 'Tropical Lower Montane Desert Scrub',
+  137: 'Tropical Lower Montane Desert',
+  141: 'Tropical Montane Rain Forest',
+  142: 'Tropical Montane Wet Forest',
+  143: 'Tropical Montane Moist Forest',
+  144: 'Tropical Montane Steppe',
+  145: 'Tropical Montane Desert Scrub',
+  146: 'Tropical Montane Desert',
+  151: 'Tropical Subalpine Rain Forest',
+  152: 'Tropical Subalpine Wet Forest',
+  153: 'Tropical Subalpine Moist Forest',
+  154: 'Tropical Subalpine Dry Scrub',
+  155: 'Tropical Subalpine Desert',
+  161: 'Tropical Alpine Rain Tundra',
+  162: 'Tropical Alpine Wet Tundra',
+  163: 'Tropical Alpine Moist Tundra',
+  164: 'Tropical Alpine Desert',
+  171: 'Tropical Nival Desert',
+  211: 'Subtropical Rain Forest',
+  212: 'Subtropical Wet Forest',
+  213: 'Subtropical Moist Forest',
+  214: 'Subtropical Dry Forest',
+  215: 'Subtropical Thorn Woodland',
+  216: 'Subtropical Desert Scrub',
+  217: 'Subtropical Desert',
+  221: 'Subtropical Lower Montane Rain Forest',
+  222: 'Subtropical Lower Montane Wet Forest',
+  223: 'Subtropical Lower Montane Moist Forest',
+  224: 'Subtropical Lower Montane Dry Forest',
+  225: 'Subtropical Lower Montane Thorn Woodland',
+  226: 'Subtropical Lower Montane Desert Scrub',
+  227: 'Subtropical Lower Montane Desert',
+  231: 'Subtropical Montane Rain Forest',
+  232: 'Subtropical Montane Wet Forest',
+  233: 'Subtropical Montane Moist Forest',
+  234: 'Subtropical Montane Steppe',
+  235: 'Subtropical Montane Desert Scrub',
+  236: 'Subtropical Montane Desert',
+  241: 'Subtropical Subalpine Rain Forest',
+  242: 'Subtropical Subalpine Wet Forest',
+  243: 'Subtropical Subalpine Moist Forest',
+  244: 'Subtropical Subalpine Dry Scrub',
+  245: 'Subtropical Subalpine Desert',
+  251: 'Subtropical Alpine Rain Tundra',
+  252: 'Subtropical Alpine Wet Tundra',
+  253: 'Subtropical Alpine Moist Tundra',
+  254: 'Subtropical Alpine Desert',
+  261: 'Subtropical Nival Desert',
+  311: 'Warm Temperate Rain Forest',
+  312: 'Warm Temperate Wet Forest',
+  313: 'Warm Temperate Moist Forest',
+  314: 'Warm Temperate Dry Forest',
+  315: 'Warm Temperate Thorn Woodland',
+  316: 'Warm Temperate Desert Scrub',
+  317: 'Warm Temperate Desert',
+  321: 'Warm Temperate Subalpine Rain Forest',
+  322: 'Warm Temperate Subalpine Wet Forest',
+  323: 'Warm Temperate Subalpine Moist Forest',
+  324: 'Warm Temperate Subalpine Desert Scrub',
+  325: 'Warm Temperate Subalpine Desert',
+  331: 'Warm Temperate Alpine Rain Tundra',
+  332: 'Warm Temperate Alpine Wet Tundra',
+  333: 'Warm Temperate Alpine Moist Tundra',
+  334: 'Warm Temperate Alpine Dry Scrub',
+  335: 'Warm Temperate Subalpine Desert',
+  341: 'Warm Temperate Alpine Rain Tundra',
+  342: 'Warm Temperate Alpine Wet Tundra',
+  343: 'Warm Temperate Alpine Moist Tundra',
+  344: 'Warm Temperate Alpine Desert',
+  351: 'Warm Temperate Nival Desert',
+  411: 'Cool Temperate Rain Forest',
+  412: 'Cool Temperate Wet Forest',
+  413: 'Cool Temperate Moist Forest',
+  414: 'Cool Temperate Steppe',
+  415: 'Cool Temperate Desert Scrub',
+  416: 'Cool Temperate Desert',
+  421: 'Cool Temperate Subalpine Rain Forest',
+  422: 'Cool Temperate Subalpine Wet Forest',
+  423: 'Cool Temperate Subalpine Moist Forest',
+  424: 'Cool Temperate Subalpine Dry Scrub',
+  425: 'Cool Temperate Subalpine Desert',
+  431: 'Cool Temperate Alpine Rain Tundra',
+  432: 'Cool Temperate Alpine Wet Tundra',
+  433: 'Cool Temperate Alpine Moist Tundra',
+  434: 'Cool Temperate Alpine Desert',
+  441: 'Cool Temperate Nival Desert',
+  511: 'Boreal Rain Forest',
+  512: 'Boreal Wet Forest',
+  513: 'Boreal Moist Forest',
+  514: 'Boreal Dry Scrub',
+  515: 'Boreal Desert',
+  521: 'Boreal Alpine Rain Tundra',
+  522: 'Boreal Alpine Wet Tundra',
+  523: 'Boreal Alpine Moist Tundra',
+  524: 'Boreal Alpine Desert',
+  531: 'Boreal Nival Desert',
+  611: 'Subpolar Rain Tundra',
+  612: 'Subpolar Wet Tundra',
+  613: 'Subpolar Moist Tundra',
+  614: 'Subpolar Desert',
+  621: 'Subpolar Nival Desert',
+  711: 'Polar'
+};
+
+var labelMap_hlzII = {
+  11: "Tropical Rain Forest",
+  12: "Tropical Wet Forest",
+  13: "Tropical Moist Forest",
+  14: "Tropical Dry Forest",
+  15: "Tropical Very Dry Forest",
+  16: "Tropical Thorn Woodland",
+  17: "Tropical Desert Scrub",
+  18: "Tropical Desert",
+  21: "Subtropical Rain Forest",
+  22: "Subtropical Wet Forest",
+  23: "Subtropical Moist Forest",
+  24: "Subtropical Dry Forest",
+  25: "Subtropical Thorn Woodland",
+  26: "Subtropical Desert Scrub",
+  27: "Subtropical Desert",
+  31: "Warm Temperate Rain Forest",
+  32: "Warm Temperate Wet Forest",
+  33: "Warm Temperate Moist Forest",
+  34: "Warm Temperate Dry Forest",
+  35: "Warm Temperate Thorn Woodland",
+  36: "Warm Temperate Desert Scrub",
+  37: "Warm Temperate Desert",
+  41: "Cool Temperate Rain Forest",
+  42: "Cool Temperate Wet Forest",
+  43: "Cool Temperate Moist Forest",
+  44: "Cool Temperate Steppe",
+  45: "Cool Temperate Desert Scrub",
+  46: "Cool Temperate Desert",
+  51: "Boreal Rain Forest",
+  52: "Boreal Wet Forest",
+  53: "Boreal Moist Forest",
+  54: "Boreal Dry Scrub",
+  55: "Boreal Desert",
+  61: "Subpolar Rain Tundra",
+  62: "Subpolar Wet Tundra",
+  63: "Subpolar Moist Tundra",
+  64: "Subpolar Dry Tundra",
+  71: "Polar",
+};
+
+var labelMap_hlzI = {
+  11: 'Tropical Rain Forest',
+  12: 'Tropical Moist Forest',
+  13: 'Tropical Dry Forest',
+  14: 'Tropical Shrubland',
+  15: 'Tropical Desert',
+  21: 'Subtropical Rain Forest',
+  22: 'Subtropical Moist Forest',
+  23: 'Subtropical Dry Forest',
+  24: 'Subtropical Shrubland',
+  25: 'Subtropical Desert',
+  31: 'Warm Temperate Rain Forest',
+  32: 'Warm Temperate Moist Forest',
+  33: 'Warm Temperate Dry Forest',
+  34: 'Warm Temperate Shrubland',
+  35: 'Warm Temperate Desert',
+  41: 'Cool Temperate Rain/Wet Forest',
+  42: 'Cool Temperate Moist Forest',
+  43: 'Cool Temperate Steppe',
+  44: 'Cool Temperate Desert',
+  51: 'Boreal Rain/Wet Forest',
+  52: 'Boreal Moist Forest',
+  53: 'Boreal Dry Scrub',
+  54: 'Boreal Desert',
+  61: 'Subpolar Rain/Wet Tundra',
+  62: 'Subpolar Moist Tundra',
+  63: 'Subpolar Dry Tundra',
+  71: 'Polar'
+};
+
+
+
+// Define an SLD style of discrete intervals to apply to the image.
+var sld_intervals_hlzII =
+'<RasterSymbolizer>' +
+  '<ColorMap type="intervals" extended="false">' +
+    '<ColorMapEntry color="#ce1d09" quantity="111" label="Tropical Rain Forest"/>' +
+    '<ColorMapEntry color="#D2280D" quantity="112" label="Tropical Wet Forest"/>' +
+    '<ColorMapEntry color="#DB4A2A" quantity="113" label="Tropical Moist Forest"/>' +
+    '<ColorMapEntry color="#E36B49" quantity="114" label="Tropical Dry Forest"/>' +
+    '<ColorMapEntry color="#EA8A68" quantity="115" label="Tropical Very Dry Forest"/>' +
+    '<ColorMapEntry color="#F0A888" quantity="116" label="Tropical Thorn Woodland"/>' +
+    '<ColorMapEntry color="#F6C3AA" quantity="117" label="Tropical Desert Scrub"/>' +
+    '<ColorMapEntry color="#FADDCC" quantity="118" label="Tropical Desert"/>' +
+    '<ColorMapEntry color="#f19137" quantity="121" label="Tropical Premontane Rain Forest"/>' +
+    '<ColorMapEntry color="#F3A052" quantity="122" label="Tropical Premontane Wet Forest"/>' +
+    '<ColorMapEntry color="#F5AE6C" quantity="123" label="Tropical Premontane Moist Forest"/>' +
+    '<ColorMapEntry color="#F7BD87" quantity="124" label="Tropical Premontane Dry Forest"/>' +
+    '<ColorMapEntry color="#F9CCA2" quantity="125" label="Tropical Premontane Thorn Woodland"/>' +
+    '<ColorMapEntry color="#FADABC" quantity="126" label="Tropical Premontane Desert Scrub"/>' +
+    '<ColorMapEntry color="#FCE9D7" quantity="127" label="Tropical Premontane Desert"/>' +
+    '<ColorMapEntry color="#ffde4a" quantity="131" label="Tropical Lower Montane Rain Forest"/>' +
+    '<ColorMapEntry color="#FFE262" quantity="132" label="Tropical Lower Montane Wet Forest"/>' +
+    '<ColorMapEntry color="#FFE77A" quantity="133" label="Tropical Lower Montane Moist Forest"/>' +
+    '<ColorMapEntry color="#FFEB92" quantity="134" label="Tropical Lower Montane Dry Forest"/>' +
+    '<ColorMapEntry color="#FFF0AB" quantity="135" label="Tropical Lower Montane Thorn Woodland"/>' +
+    '<ColorMapEntry color="#FFF4C3" quantity="136" label="Tropical Lower Montane Desert Scrub"/>' +
+    '<ColorMapEntry color="#FFF8DB" quantity="137" label="Tropical Lower Montane Desert"/>' +
+    '<ColorMapEntry color="#9ec200" quantity="141" label="Tropical Montane Rain Forest"/>' +
+    '<ColorMapEntry color="#AECC29" quantity="142" label="Tropical Montane Wet Forest"/>' +
+    '<ColorMapEntry color="#BDD652" quantity="143" label="Tropical Montane Moist Forest"/>' +
+    '<ColorMapEntry color="#CDDF7A" quantity="144" label="Tropical Montane Steppe"/>' +
+    '<ColorMapEntry color="#DCE9A3" quantity="145" label="Tropical Montane Desert Scrub"/>' +
+    '<ColorMapEntry color="#ECF3CC" quantity="146" label="Tropical Montane Desert"/>' +
+    '<ColorMapEntry color="#009837" quantity="151" label="Tropical Subalpine Rain Forest"/>' +
+    '<ColorMapEntry color="#33AD5F" quantity="152" label="Tropical Subalpine Wet Forest"/>' +
+    '<ColorMapEntry color="#66C187" quantity="153" label="Tropical Subalpine Moist Forest"/>' +
+    '<ColorMapEntry color="#99D6AF" quantity="154" label="Tropical Subalpine Dry Scrub"/>' +
+    '<ColorMapEntry color="#CCEAD7" quantity="155" label="Tropical Subalpine Desert"/>'+
+    '<ColorMapEntry color="#00add6" quantity="161" label="Tropical Alpine Rain Tundra"/>' +
+    '<ColorMapEntry color="#44C3E1" quantity="162" label="Tropical Alpine Wet Tundra"/>' +
+    '<ColorMapEntry color="#88D9EC" quantity="163" label="Tropical Alpine Moist Tundra"/>' +
+    '<ColorMapEntry color="#CCEFF7" quantity="164" label="Tropical Alpine Desert"/>'+
+    '<ColorMapEntry color="#1451a0" quantity="171" label="Tropical Nival Desert"/>' +
+    
+    '<ColorMapEntry color="#f19137" quantity="211" label="Subtropical Rain Forest"/>' +
+    '<ColorMapEntry color="#F3A052" quantity="212" label="Subtropical Wet Forest"/>' +
+    '<ColorMapEntry color="#F5AE6C" quantity="213" label="Subtropical Moist Forest"/>' +
+    '<ColorMapEntry color="#F7BD87" quantity="214" label="Subtropical Dry Forest"/>' +
+    '<ColorMapEntry color="#F9CCA2" quantity="215" label="Subtropical Thorn Woodland"/>' +
+    '<ColorMapEntry color="#FADABC" quantity="216" label="Subtropical Desert Scrub"/>' +
+    '<ColorMapEntry color="#FCE9D7" quantity="217" label="Subtropical Desert"/>' +
+    '<ColorMapEntry color="#ffde4a" quantity="221" label="Subtropical Lower Montane Rain Forest"/>' +
+    '<ColorMapEntry color="#FFE262" quantity="222" label="Subtropical Lower Montane Wet Forest"/>' +
+    '<ColorMapEntry color="#FFE77A" quantity="223" label="Subtropical Lower Montane Moist Forest"/>' +
+    '<ColorMapEntry color="#FFEB92" quantity="224" label="Subtropical Lower Montane Dry Forest"/>' +
+    '<ColorMapEntry color="#FFF0AB" quantity="225" label="Subtropical Lower Montane Thorn Woodland"/>' +
+    '<ColorMapEntry color="#FFF4C3" quantity="226" label="Subtropical Lower Montane Desert Scrub"/>' +
+    '<ColorMapEntry color="#FFF8DB" quantity="227" label="Subtropical Lower Montane Desert"/>' +
+    '<ColorMapEntry color="#9ec200" quantity="231" label="Subtropical Montane Rain Forest"/>' +
+    '<ColorMapEntry color="#AECC29" quantity="232" label="Subtropical Montane Wet Forest"/>' +
+    '<ColorMapEntry color="#BDD652" quantity="233" label="Subtropical Montane Moist Forest"/>' +
+    '<ColorMapEntry color="#CDDF7A" quantity="234" label="Subtropical Montane Steppe"/>' +
+    '<ColorMapEntry color="#DCE9A3" quantity="235" label="Subtropical Montane Desert Scrub"/>' +
+    '<ColorMapEntry color="#ECF3CC" quantity="236" label="Subtropical Montane Desert"/>' +
+    '<ColorMapEntry color="#009837" quantity="241" label="Subtropical Subalpine Rain Forest"/>' +
+    '<ColorMapEntry color="#33AD5F" quantity="242" label="Subtropical Subalpine Wet Forest"/>' +
+    '<ColorMapEntry color="#66C187" quantity="243" label="Subtropical Subalpine Moist Forest"/>' +
+    '<ColorMapEntry color="#99D6AF" quantity="244" label="Subtropical Subalpine Dry Scrub"/>' +
+    '<ColorMapEntry color="#CCEAD7" quantity="245" label="Subtropical Subalpine Desert"/>'+
+    '<ColorMapEntry color="#00add6" quantity="251" label="Subtropical Alpine Rain Tundra"/>' +
+    '<ColorMapEntry color="#44C3E1" quantity="252" label="Subtropical Alpine Wet Tundra"/>' +
+    '<ColorMapEntry color="#88D9EC" quantity="253" label="Subtropical Alpine Moist Tundra"/>' +
+    '<ColorMapEntry color="#CCEFF7" quantity="254" label="Subtropical Alpine Desert"/>'+
+    '<ColorMapEntry color="#1451a0" quantity="261" label="Subtropical Nival Desert"/>' +
+    
+    '<ColorMapEntry color="#ffde4a" quantity="311" label="Warm Temperate Rain Forest"/>' +
+    '<ColorMapEntry color="#FFE262" quantity="312" label="Warm Temperate Wet Forest"/>' +
+    '<ColorMapEntry color="#FFE77A" quantity="313" label="Warm Temperate Moist Forest"/>' +
+    '<ColorMapEntry color="#FFEB92" quantity="314" label="Warm Temperate Dry Forest"/>' +
+    '<ColorMapEntry color="#FFF0AB" quantity="315" label="Warm Temperate Thorn Woodland"/>' +
+    '<ColorMapEntry color="#FFF4C3" quantity="316" label="Warm Temperate Desert Scrub"/>' +
+    '<ColorMapEntry color="#FFF8DB" quantity="317" label="Warm Temperate Desert"/>' +
+    '<ColorMapEntry color="#9ec200" quantity="321" label="Warm Temperate Montane Rain Forest"/>' +
+    '<ColorMapEntry color="#AECC29" quantity="322" label="Warm Temperate Montane Wet Forest"/>' +
+    '<ColorMapEntry color="#BDD652" quantity="323" label="Warm Temperate Montane Moist Forest"/>' +
+    '<ColorMapEntry color="#CDDF7A" quantity="324" label="Warm Temperate Montane Steppe"/>' +
+    '<ColorMapEntry color="#DCE9A3" quantity="325" label="Warm Temperate Montane Desert Scrub"/>' +
+    '<ColorMapEntry color="#ECF3CC" quantity="326" label="Warm Temperate Montane Desert"/>' +
+    '<ColorMapEntry color="#009837" quantity="331" label="Warm Temperate Subalpine Rain Forest"/>' +
+    '<ColorMapEntry color="#33AD5F" quantity="332" label="Warm Temperate Subalpine Wet Forest"/>' +
+    '<ColorMapEntry color="#66C187" quantity="333" label="Warm Temperate Subalpine Moist Forest"/>' +
+    '<ColorMapEntry color="#99D6AF" quantity="334" label="Warm Temperate Subalpine Dry Scrub"/>' +
+    '<ColorMapEntry color="#CCEAD7" quantity="335" label="Warm Temperate Subalpine Desert"/>'+
+    '<ColorMapEntry color="#00add6" quantity="341" label="Warm Temperate Alpine Rain Tundra"/>' +
+    '<ColorMapEntry color="#44C3E1" quantity="342" label="Warm Temperate Alpine Wet Tundra"/>' +
+    '<ColorMapEntry color="#88D9EC" quantity="343" label="Warm Temperate Alpine Moist Tundra"/>' +
+    '<ColorMapEntry color="#CCEFF7" quantity="344" label="Warm Temperate Alpine Desert"/>'+
+    '<ColorMapEntry color="#1451a0" quantity="351" label="Warm Temperate Nival Desert"/>' +
+    
+    '<ColorMapEntry color="#9ec200" quantity="411" label="Cool Temperate Rain Forest"/>' +
+    '<ColorMapEntry color="#AECC29" quantity="412" label="Cool Temperate Wet Forest"/>' +
+    '<ColorMapEntry color="#BDD652" quantity="413" label="Cool Temperate Moist Forest"/>' +
+    '<ColorMapEntry color="#CDDF7A" quantity="414" label="Cool Temperate Steppe"/>' +
+    '<ColorMapEntry color="#DCE9A3" quantity="415" label="Cool Temperate Desert Scrub"/>' +
+    '<ColorMapEntry color="#ECF3CC" quantity="416" label="Cool Temperate Desert"/>' +
+    '<ColorMapEntry color="#009837" quantity="421" label="Cool Temperate Subalpine Rain Forest"/>' +
+    '<ColorMapEntry color="#33AD5F" quantity="422" label="Cool Temperate Subalpine Wet Forest"/>' +
+    '<ColorMapEntry color="#66C187" quantity="423" label="Cool Temperate Subalpine Moist Forest"/>' +
+    '<ColorMapEntry color="#99D6AF" quantity="424" label="Cool Temperate Subalpine Dry Scrub"/>' +
+    '<ColorMapEntry color="#CCEAD7" quantity="425" label="Cool Temperate Subalpine Desert"/>'+
+    '<ColorMapEntry color="#00add6" quantity="431" label="Cool Temperate Alpine Rain Tundra"/>' +
+    '<ColorMapEntry color="#44C3E1" quantity="432" label="Cool Temperate Alpine Wet Tundra"/>' +
+    '<ColorMapEntry color="#88D9EC" quantity="433" label="Cool Temperate Alpine Moist Tundra"/>' +
+    '<ColorMapEntry color="#CCEFF7" quantity="434" label="Cool Temperate Alpine Desert"/>'+
+    '<ColorMapEntry color="#1451a0" quantity="441" label="Cool Temperate Nival Desert"/>' +
+     
+     
+    '<ColorMapEntry color="#009837" quantity="511" label="Boreal Rain Forest"/>' +
+    '<ColorMapEntry color="#33AD5F" quantity="512" label="Boreal Wet Forest"/>' +
+    '<ColorMapEntry color="#66C187" quantity="513" label="Boreal Moist Forest"/>' +
+    '<ColorMapEntry color="#99D6AF" quantity="514" label="Boreal Dry Scrub"/>' +
+    '<ColorMapEntry color="#CCEAD7" quantity="515" label="Boreal Desert"/>'+
+    '<ColorMapEntry color="#00add6" quantity="521" label="Boreal Alpine Rain Tundra"/>' +
+    '<ColorMapEntry color="#44C3E1" quantity="522" label="Boreal Alpine Wet Tundra"/>' +
+    '<ColorMapEntry color="#88D9EC" quantity="523" label="Boreal Alpine Moist Tundra"/>' +
+    '<ColorMapEntry color="#CCEFF7" quantity="524" label="Boreal Alpine Desert"/>'+
+    '<ColorMapEntry color="#1451a0" quantity="531" label="Boreal Nival Desert"/>' +
+    
+    '<ColorMapEntry color="#00add6" quantity="611" label="Subpolar Rain Tundra"/>' +
+    '<ColorMapEntry color="#44C3E1" quantity="612" label="Subpolar Wet Tundra"/>' +
+    '<ColorMapEntry color="#88D9EC" quantity="613" label="Subpolar Moist Tundra"/>' +
+    '<ColorMapEntry color="#CCEFF7" quantity="614" label="Subpolar Desert"/>'+
+    '<ColorMapEntry color="#1451a0" quantity="621" label="Subpolar Nival Desert"/>' +
+    
+    '<ColorMapEntry color="#1451a0" quantity="711" label="Polar"/>' +
+
+  '</ColorMap>' +
+'</RasterSymbolizer>';
+
+
+var sld_intervals_hlzI =
+'<RasterSymbolizer>' +
+  '<ColorMap type="intervals" extended="false">' +
+    '<ColorMapEntry color="#ce1d09" quantity="11" label="Tropical rainforest"/>' +
+    '<ColorMapEntry color="#DB4A2A" quantity="12" label="Tropical moist forest"/>' +
+    '<ColorMapEntry color="#E36B49" quantity="13" label="Tropical dry forest"/>' +
+    '<ColorMapEntry color="#F0A888" quantity="14" label="Tropical shrubland"/>' +
+    '<ColorMapEntry color="#FADDCC" quantity="15" label="Tropical desert"/>' + 
+    
+    '<ColorMapEntry color="#f19137" quantity="21" label="Subtropical rain forest"/>' +
+    '<ColorMapEntry color="#F5AE6C" quantity="22" label="Subtropical moist forest"/>' +
+    '<ColorMapEntry color="#F7BD87" quantity="23" label="Subtropical dry forest"/>' +
+    '<ColorMapEntry color="#F9CCA2" quantity="24" label="Subtropical shrubland"/>' +
+    '<ColorMapEntry color="#FCE9D7" quantity="25" label="Subtropical desert"/>' +
+    
+    '<ColorMapEntry color="#ffde4a" quantity="31" label="Warm Temperate rain forest"/>' +
+    '<ColorMapEntry color="#FFE77A" quantity="32" label="Warm Temperate moist forest"/>' +
+    '<ColorMapEntry color="#FFEB92" quantity="33" label="Warm Temperate dry forest"/>' +
+    '<ColorMapEntry color="#FFF0AB" quantity="34" label="Warm Temperate shrubland"/>' +
+    '<ColorMapEntry color="#FFF8DB" quantity="35" label="Warm Temperate desert"/>' +
+    
+    '<ColorMapEntry color="#9ec200" quantity="41" label="Cool Temperate rain/wet forest"/>' +
+    '<ColorMapEntry color="#BDD652" quantity="42" label="Cool Temperate moist forst"/>' +
+    '<ColorMapEntry color="#CDDF7A" quantity="43" label="Cool Temperate steppe"/>' +
+    '<ColorMapEntry color="#ECF3CC" quantity="44" label="Cool Temperate desert"/>' +
+    
+    '<ColorMapEntry color="#009837" quantity="51" label="Boreal rain/wet forest"/>' +
+    '<ColorMapEntry color="#66C187" quantity="52" label="Boreal moist forest"/>' +
+    '<ColorMapEntry color="#99D6AF" quantity="53" label="Boreal dry scrub"/>' +
+    '<ColorMapEntry color="#CCEAD7" quantity="54" label="Boreal desert"/>' +
+    
+    '<ColorMapEntry color="#00add6" quantity="61" label="Subpolar rain/wet tundra"/>' +
+    '<ColorMapEntry color="#88D9EC" quantity="62" label="Subpolar moist tundra"/>' +
+    '<ColorMapEntry color="#CCEFF7" quantity="63" label="Subpolar dry tundra"/>' +
+    
+    '<ColorMapEntry color="#1451a0" quantity="71" label="Polar"/>' +
+  '</ColorMap>' +
+'</RasterSymbolizer>';
+
+// Apply the SLD style to the hlzIII and hlzII layers
+var styled_hlzII = hlzIII.sldStyle(sld_intervals_hlzII);
+var styled_hlzI = hlzI.sldStyle(sld_intervals_hlzI);
+
+// Add the styled layers to the map
+Map.addLayer(styled_hlzII, {}, 'Holdridge Life Zones - Level II');
+Map.addLayer(styled_hlzI, {}, 'Holdridge Life Zones - Level I');
+
+
+var panel = ui.Panel({
+  style: {
+    position: 'bottom-center',
+    backgroundColor: 'white',
+    width: '500px',
+    height: '220px',
+    backgroundColor: 'white',
+    padding: '8px',
+    fontSize: '20px',
+    border: '2px solid black' // Add a 2px solid black border
+    //fontWeight: 'bold'
+  }
+});
+
+var startLabel = ui.Label('Holdridge Life Zones (HLZ)');
+startLabel.style().set({
+  fontSize: '30px',
+  //fontWeight: 'bold',
+  textAlign: 'center', // Center the text
+  width: '100%' // Make sure the label takes full width of the panel
+});
+var clickLabel = ui.Label('--> Click on the map to get HLZ <--');
+clickLabel.style().set({
+  fontSize: '20px',
+  //fontWeight: 'bold',
+  textAlign: 'center', // Center the text
+  width: '100%' // Make sure the label takes full width of the panel
+});
+var hlzI_label = ui.Label('HLZ - Level I: ');
+hlzI_label.style().set({
+  fontSize: '15px',
+  //fontWeight: 'bold',
+  textAlign: 'center', // Center the text
+  width: '100%' // Make sure the label takes full width of the panel
+});
+var hlzII_label = ui.Label('HLZ - Level II: ');
+hlzII_label.style().set({
+  fontSize: '15px',
+  //fontWeight: 'bold',
+  textAlign: 'center', // Center the text
+  width: '100%' // Make sure the label takes full width of the panel
+});
+var hlzIII_label = ui.Label('HLZ - Level III: ');
+hlzIII_label.style().set({
+  fontSize: '15px',
+  //fontWeight: 'bold',
+  textAlign: 'center', // Center the text
+  width: '100%' // Make sure the label takes full width of the panel
+});
+
+panel.add(startLabel).add(clickLabel).add(hlzI_label).add(hlzII_label).add(hlzIII_label);
+
+Map.add(panel);
+
+
+
+function updateLabel(coords) {
+  // Replace the label text with HLZ information
+  //label.setValue('HLZ I: [Value]\nHLZ II: [Value]\nHLZ III: [Value]');
+  
+  var point = ee.Geometry.Point(coords.lon, coords.lat);
+  
+  hlzI.reduceRegion(ee.Reducer.first(), point, 30).evaluate(function(result_hlzI) {
+    var value_hlzI = result_hlzI['remapped'];
+    var labelName_hlzI = labelMap_hlzI[value_hlzI];
+    
+    var value_hlzI_adj = result_hlzI['remapped'];
+  
+    // Corrected code with added else statement
+    if (value_hlzI_adj === 11) {
+      value_hlzI_adj = '1a';
+    } else if (value_hlzI_adj === 12) {
+      value_hlzI_adj = '1b';
+    } else if (value_hlzI_adj === 13) {
+      value_hlzI_adj = '1c';
+    } else if (value_hlzI_adj === 14) {
+      value_hlzI_adj = '1d';
+    } else if (value_hlzI_adj === 15) {
+      value_hlzI_adj = '1e';
+    } else if (value_hlzI_adj === 21) {
+      value_hlzI_adj = '2a';
+    } else if (value_hlzI_adj === 22) {
+      value_hlzI_adj = '2b';
+    } else if (value_hlzI_adj === 23) {
+      value_hlzI_adj = '2c';
+    } else if (value_hlzI_adj === 24) {
+      value_hlzI_adj = '2d';
+    } else if (value_hlzI_adj === 25) {
+      value_hlzI_adj = '2e';
+    } else if (value_hlzI_adj === 31) {
+      value_hlzI_adj = '3a';
+    } else if (value_hlzI_adj === 32) {
+      value_hlzI_adj = '3b';
+    } else if (value_hlzI_adj === 33) {
+      value_hlzI_adj = '3c';
+    } else if (value_hlzI_adj === 34) {
+      value_hlzI_adj = '3d';
+    } else if (value_hlzI_adj === 35) {
+      value_hlzI_adj = '3e';
+    } else if (value_hlzI_adj === 41) {
+      value_hlzI_adj = '4a';
+    } else if (value_hlzI_adj === 42) {
+      value_hlzI_adj = '4b';
+    } else if (value_hlzI_adj === 43) {
+      value_hlzI_adj = '4c';
+    } else if (value_hlzI_adj === 44) {
+      value_hlzI_adj = '4d';
+    } else if (value_hlzI_adj === 51) {
+      value_hlzI_adj = '5a';
+    } else if (value_hlzI_adj === 52) {
+      value_hlzI_adj = '5b';
+    } else if (value_hlzI_adj === 53) {
+      value_hlzI_adj = '5c';
+    } else if (value_hlzI_adj === 54) {
+      value_hlzI_adj = '5d';
+    } else if (value_hlzI_adj === 61) {
+      value_hlzI_adj = '6a';
+    } else if (value_hlzI_adj === 62) {
+      value_hlzI_adj = '6b';
+    } else if (value_hlzI_adj === 63) {
+      value_hlzI_adj = '6c';
+    } else if (value_hlzI_adj === 71) {
+      value_hlzI_adj = '7a';
+    } else {
+      value_hlzI_adj = 'Unknown Value';
+    }
+
+    
+    hlzII.reduceRegion(ee.Reducer.first(), point, 30).evaluate(function(result_hlzII) {
+      var value_hlzII = result_hlzII['remapped'];
+      var labelName_hlzII = labelMap_hlzII[value_hlzII];
+      
+      hlzIII.reduceRegion(ee.Reducer.first(), point, 30).evaluate(function(result_hlzIII) {
+        var value_hlzIII = result_hlzIII['biotemperature'];
+        var labelName_hlzIII = labelMap_hlzIII[value_hlzIII];
+        
+        hlzI_label.setValue('HLZ - Level I: ' + labelName_hlzI + ' ('+ value_hlzI_adj + ')');
+        hlzII_label.setValue('HLZ - Level II: ' + labelName_hlzII + ' ('+ value_hlzII + ')');
+        hlzIII_label.setValue('HLZ - Level III: ' + labelName_hlzIII + ' ('+ value_hlzIII + ')');
+      });
+    });
+  });
+}
+
+Map.onClick(updateLabel);
+
+
+
+
+
+
+
+/////////////////////////// Legends /////////////////////////////////
+
+
+//// Create Legend for HLZI 
+//// Create Legend
+
+function createLegend_HLZI() {
+    var legend = ui.Panel({
+    style: {
+      maxHeight: '192px',
+      position: 'bottom-left',
+      padding: '8px 15px',
+      border: '2px solid black' // Add a 2px solid black border
+    }
+  });
+
+  // Create legend title
+  var legendTitle_HLZI = ui.Label({
+    value: 'Holdridge Life Zones - Level I',
+    style: {
+      fontWeight: 'bold',
+      fontSize: '18px',
+      margin: '0 0 4px 0',
+      padding: '0'
+      }
+  });
+  
+   // Add the title to the panel
+  legend.add(legendTitle_HLZI); 
+
+  // Creates and styles 1 row of the legend.
+  var makeRow = function(color, name) {
+ 
+      // Create the label that is actually the colored box.
+      var colorBox = ui.Label({
+        style: {
+          backgroundColor: '#' + color,
+          // Use padding to give the box height and width.
+          padding: '8px',
+          margin: '0 0 4px 0'
+        }
+      });
+ 
+      // Create the label filled with the description text.
+      var description = ui.Label({
+        value: name,
+        style: {margin: '0 0 4px 6px'}
+      });
+ 
+      // return the panel
+      return ui.Panel({
+        widgets: [colorBox, description],
+        layout: ui.Panel.Layout.Flow('horizontal')
+      });
+};
+
+
+var palette_HLZI = [
+'C71D31','D64758','E37280','EEA0A9','F7CED3',
+'F17C1D','F89646','FDB071','FFCA9E','FFE4CE',
+'FFDD00','FFE833','FFF066','FFF799','FFFCCC',
+'74A900','9BC444', 'C0DC88','E5F1CC',
+'009F49','44BD79', '88D7AA','CCEFDA',
+'0088D6','66B9ED', 'CCE8FB',
+'1451a0']; 
+
+
+// name of the legend
+var names_HLZI = ["Tropical rainforest","Tropical moist forest","Tropical dry forest", "Tropical shrubland","Tropical desert","Subtropical rain forest","Subtropical moist forest","Subtropical dry forest","Subtropical steppe/shrubland","Subtropical desert","Warm Temperate rain/wet forest","Warm Temperate moist forest","Warm Temperate dry forest","Warm Temperate steppe/shrubland","Warm Temperate desert","Cool Temperate rain/wet forest","Cool Temperate moist forest","Cool Temperate steppe","Cool Temperate desert", "Boreal rain/wet forest", "Boreal moist forest", "Boreal dry scrub", "Boreal desert", "Subpolar rain/wet tundra", "Subpolar moist tundra", "Subpolar dry tundra", "Polar desert"];
+  
+  // Add color and and names
+for (var i = 0; i < 27; i++) {
+  legend.add(makeRow(palette_HLZI[i], names_HLZI[i]));
+  }  
+  return legend;
+}
+Map.add(createLegend_HLZI());
+
+
+//// Create Legend for HLZII
+
+function createLegendHLZII() {
+    var legend = ui.Panel({
+    style: {
+      maxHeight: '205px',
+      position: 'bottom-right',
+      padding: '8px 15px',
+      border: '2px solid black' // Add a 2px solid black border
+    }
+  });
+
+  // Create legend title
+  var legendTitleHLZII = ui.Label({
+    value: 'Holdridge Life Zones - Level II',
+    style: {
+      fontWeight: 'bold',
+      fontSize: '18px',
+      margin: '0 0 4px 0',
+      padding: '0'
+      }
+  });
+  
+   // Add the title to the panel
+  legend.add(legendTitleHLZII); 
+
+  // Creates and styles 1 row of the legend.
+  var makeRow = function(color, name) {
+ 
+      // Create the label that is actually the colored box.
+      var colorBox = ui.Label({
+        style: {
+          backgroundColor: '#' + color,
+          // Use padding to give the box height and width.
+          padding: '8px',
+          margin: '0 0 4px 0'
+        }
+      });
+ 
+      // Create the label filled with the description text.
+      var description = ui.Label({
+        value: name,
+        style: {margin: '0 0 4px 6px'}
+      });
+ 
+      // return the panel
+      return ui.Panel({
+        widgets: [colorBox, description],
+        layout: ui.Panel.Layout.Flow('horizontal')
+      });
+};
+
+
+var palette_HLZII = [
+    'ce1d09','D2280D', 'DB4A2A', 'E36B49', 'EA8A68', 'F0A888', 'F6C3AA', 'FADDCC', // Tropical
+    'f19137', 'F3A052', 'F5AE6C', 'F7BD87', 'F9CCA2', 'FADABC', 'FCE9D7', // Subtropical
+    'ffde4a', 'FFE262', 'FFE77A', 'FFEB92', 'FFF0AB', 'FFF4C3', 'FFF8DB', // Warm Temperate
+    '9ec200', 'AECC29', 'BDD652', 'CDDF7A', 'DCE9A3', 'ECF3CC', // Cool Temperate
+    '009837', '33AD5F', '66C187', '99D6AF', 'CCEAD7', // Boreal
+    '00add6', '44C3E1', '88D9EC', 'CCEFF7', // Subpolar
+    '1451a0' // Polar
+  ];
+
+
+// name of the legend
+var names_HLZII = [ 
+"Tropical Rain Forest",
+"Tropical Wet Forest",
+"Tropical Moist Forest",
+"Tropical Dry Forest",
+"Tropical Very Dry Forest",
+"Tropical Thorn Woodland",
+"Tropical Desert Scrub",
+"Tropical Desert",
+"Subtropical Rain Forest",
+"Subtropical Wet Forest",
+"Subtropical Moist Forest",
+"Subtropical Dry Forest",
+"Subtropical Thorn Woodland",
+"Subtropical Desert Scrub",
+"Subtropical Desert",
+"Warm Temperate Rain Forest",
+"Warm Temperate Wet Forest",
+"Warm Temperate Moist Forest",
+"Warm Temperate Dry Forest",
+"Warm Temperate Thorn Woodland",
+"Warm Temperate Desert Scrub",
+"Warm Temperate Desert",
+"Cool Temperate Rain Forest",
+"Cool Temperate Wet Forest",
+"Cool Temperate Moist Forest",
+"Cool Temperate Steppe",
+"Cool Temperate Desert Scrub",
+"Cool Temperate Desert",
+"Boreal Rain Forest",
+"Boreal Wet Forest",
+"Boreal Moist Forest",
+"Boreal Dry Scrub",
+"Boreal Desert",
+"Subpolar Rain Tundra",
+"Subpolar Wet Tundra",
+"Subpolar Moist Tundra",
+"Subpolar Dry Tundra",
+"Polar",
+  ];
+  
+  // Add color and and names
+for (var i = 0; i < 38; i++) {
+  legend.add(makeRow(palette_HLZII[i], names_HLZII[i]));
+  }  
+  return legend;
+}
+Map.add(createLegendHLZII());
+
+Map.setCenter(10, 10, 2); // Set center over Europe and Africa

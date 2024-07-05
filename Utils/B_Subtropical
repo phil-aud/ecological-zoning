@@ -1,0 +1,131 @@
+// Holdridge Life Zones
+// Subtropical
+
+var mmt;
+var mmpre;
+var mmfr;
+var jan;
+var feb;
+var mar;
+var apr;
+var may;
+var jun;
+var jul;
+var aug;
+var sep;
+var oct;
+var nov;
+var dec;
+
+// Mean Monthly Temperature
+var cruTempMonthlyMean = function(image, startYear, endYear) {
+	mmt = mmt || require("users/philipaudebert/GEZ:ClimateClassifications/Holdridge/Utils/CRU_FormattedDataset");
+	return mmt.monthlyMeanD(image, startYear, endYear);
+	};
+
+// Mean monthly precipitation
+var cruPreMonthlyMean = function(image, startYear, endYear) {
+	mmpre = mmpre || require("users/philipaudebert/GEZ:ClimateClassifications/Holdridge/Utils/CRU_FormattedDataset");
+	return mmpre.monthlyMeanD(image, startYear, endYear);
+	};
+	
+// Mean Monthly Frost
+var cruFrsMonthlyMean = function(image, startYear, endYear) {
+	mmfr = mmfr || require("users/philipaudebert/GEZ:ClimateClassifications/Holdridge/Utils/CRU_FormattedDataset");
+	return mmfr.monthlyMeanD(image, startYear, endYear);
+	};
+	
+
+
+// Subtropical : 12°C <=  Mean annual biotemperature > 24°C, Frost is not possible
+var subtropical = function(precipitationData, temperatureData, frostData, elevationData, startYear, endYear) {
+  var preBands = cruPreMonthlyMean(precipitationData, startYear, endYear).toBands();
+  var tempBands = cruTempMonthlyMean(temperatureData, startYear, endYear).toBands();
+  
+  // Derguy et al. 2019. "In the present study, we observed that, in the [Sahara Desert], using such temperature limits gave some unconvincing results (lower than expected) in biotemperature
+  // calculation for a few particular, isolated locations with some summer temperatures above 30° C. Accordingly, we decided to replace all values >30°C
+  // with 30 °C, not with 0 °C. We observed that results were then similar in neighboring sites with the previously unconvincing and expected responses. In this way,
+  // based on mean monthly temperatures (MMT), we estimated mean monthly biotemperatures (MMB) by replacing values <0 °C with 0 °C and values >30°C with
+  // 30 °C. After that, we used MMB to calculate annual mean biotemperature (MAB)"
+  // Deprecated code: (tempBands.select(0).gt(0)).multiply(tempBands.select(0).lt(30)).multiply(tempBands.select(0)).rename('biotemperature');
+  jan = (tempBands.select(0).gt(30).multiply(30)).add(tempBands.select(0).lte(30).multiply(tempBands.select(0).gt(0)).multiply(tempBands.select(0))).rename('biotemperature');
+  feb = (tempBands.select(1).gt(30).multiply(30)).add(tempBands.select(1).lte(30).multiply(tempBands.select(1).gt(0)).multiply(tempBands.select(1))).rename('biotemperature');
+  mar = (tempBands.select(2).gt(30).multiply(30)).add(tempBands.select(2).lte(30).multiply(tempBands.select(2).gt(0)).multiply(tempBands.select(2))).rename('biotemperature');
+  apr = (tempBands.select(3).gt(30).multiply(30)).add(tempBands.select(3).lte(30).multiply(tempBands.select(3).gt(0)).multiply(tempBands.select(3))).rename('biotemperature');
+  may = (tempBands.select(4).gt(30).multiply(30)).add(tempBands.select(4).lte(30).multiply(tempBands.select(4).gt(0)).multiply(tempBands.select(4))).rename('biotemperature');
+  jun = (tempBands.select(5).gt(30).multiply(30)).add(tempBands.select(5).lte(30).multiply(tempBands.select(5).gt(0)).multiply(tempBands.select(5))).rename('biotemperature');
+  jul = (tempBands.select(6).gt(30).multiply(30)).add(tempBands.select(6).lte(30).multiply(tempBands.select(6).gt(0)).multiply(tempBands.select(6))).rename('biotemperature');
+  aug = (tempBands.select(7).gt(30).multiply(30)).add(tempBands.select(7).lte(30).multiply(tempBands.select(7).gt(0)).multiply(tempBands.select(7))).rename('biotemperature');
+  sep = (tempBands.select(8).gt(30).multiply(30)).add(tempBands.select(8).lte(30).multiply(tempBands.select(8).gt(0)).multiply(tempBands.select(8))).rename('biotemperature');
+  oct = (tempBands.select(9).gt(30).multiply(30)).add(tempBands.select(9).lte(30).multiply(tempBands.select(9).gt(0)).multiply(tempBands.select(9))).rename('biotemperature');
+  nov = (tempBands.select(10).gt(30).multiply(30)).add(tempBands.select(10).lte(30).multiply(tempBands.select(10).gt(0)).multiply(tempBands.select(10))).rename('biotemperature');
+  dec = (tempBands.select(11).gt(30).multiply(30)).add(tempBands.select(11).lte(30).multiply(tempBands.select(11).gt(0)).multiply(tempBands.select(11))).rename('biotemperature');
+  
+  /* This bracketed part is the calculation of the latitudinal region without the altitudinal lapse rate.
+  // Mean annual biotemperature: sum all temperatures for months with tmonth > 0°C and < 30°C
+  var biotemperature = ee.Image(ee.ImageCollection.fromImages([jan, feb, mar, apr, may, jun, jul, aug, sep, oct, nov, dec]).sum()).divide(12);
+  
+  // Holdridge (1966): "Thus, although practical considerations appear to justify the separation of the
+  // 12-24°C row of hexagons into two regions, two altitudinal belts and two sets of life
+  // zones, physiognomic evaluation supports the validity of the equivalence of the
+  // hexagons of the chart. In essence, this means that the two sets of life zones in the
+  // 12-24°C. range are in essence sub-life zones separated for nomenclaturial reasons,
+  // but which, physiognomically are really only one set of life zones."
+  var warmTemperateBiotemperature = (biotemperature.gte(12))
+  .multiply(biotemperature.lt(24));
+  
+  // Holdridge defines the difference between Subtropical and Warm Temperate Climates with a critical Temperature (or Frost Line), 
+  // which represents the dividing line between two major physiological groups of evolved plants: 
+  // On the warmer side of the line, the majority of the plants are sensitive to low temperatures. They can be killed back by frosts as they have not evolved to withstand periods of cold. 
+  // Towards the poles or above this line in the Tropical and Subtropical regions, the total flora is adapted to survive period of variable length of low temperatures, whether as seeds in the case of the annuals or as perennial plants which can withstand cold. 
+  // Frost line is defined as Fmean = sum(Fdays)/Nyears, where Fmean is the mean number of frost days per year, Fdays is the number of days where Tmin was less than 0.0°C, and NYears is the length of the climate record in years
+  // The no-frost zone is defined as the set of grid-cells where Fmean is less than 0.5, i.e. cells which averages less than one frost day per year (see Lugo et al. 1999)
+  var criticalTemperatureLine = cruFrsMonthlyMean(frostData, startYear, endYear).sum().gt(0.5)
+  
+  Map.addLayer(warmTemperateBiotemperature.multiply(criticalTemperatureLine))
+  */
+  
+  // Mean annual biotemperature: sum all temperatures for months with tmonth > 0°C and < 30°C
+  var tBio = ee.Image(ee.ImageCollection.fromImages([jan, feb, mar, apr, may, jun, jul, aug, sep, oct, nov, dec]).sum()).divide(12);
+  
+  
+  // Sea-level biotemperature taking into account the altitudinal belts of Holdridge et al.
+  // A lapse rate of -6°C/km is applied to the equation above (6°C for each 1,000m)
+  // The lapse rate is not applied to tBio <= 0, since this would otherwise skew the results towards warmer climates
+  var t0Bio = tBio.add(tBio.gt(0).multiply(elevationData.divide(1000).multiply(6)))
+  
+  // Holdridge defines the difference between Subtropical and Warm Temperate Climates with a critical Temperature (or Frost Line), 
+  // which represents the dividing line between two major physiological groups of evolved plants: 
+  // On the warmer side of the line, the majority of the plants are sensitive to low temperatures. They can be killed back by frosts as they have not evolved to withstand periods of cold. 
+  // Towards the poles or above this line in the Tropical and Subtropical regions, the total flora is adapted to survive period of variable length of low temperatures, whether as seeds in the case of the annuals or as perennial plants which can withstand cold. 
+  // Frost line is defined as Fmean = sum(Fdays)/Nyears, where Fmean is the mean number of frost days per year, Fdays is the number of days where Tmin was less than 0.0°C, and NYears is the length of the climate record in years
+  // The no-frost zone is defined as the set of grid-cells where Fmean is less than 0.5, i.e. cells which averages less than one frost day per year (see Lugo et al. 1999)
+  var criticalTemperatureLine = cruFrsMonthlyMean(frostData, startYear, endYear).sum().lte(0.5)
+  
+  t0Bio = t0Bio.multiply(criticalTemperatureLine)
+
+  // Holdridge (1966): "Thus, although practical considerations appear to justify the separation of the
+  // 12-24°C row of hexagons into two regions, two altitudinal belts and two sets of life
+  // zones, physiognomic evaluation supports the validity of the equivalence of the
+  // hexagons of the chart. In essence, this means that the two sets of life zones in the
+  // 12-24°C. range are in essence sub-life zones separated for nomenclaturial reasons,
+  // but which, physiognomically are really only one set of life zones."
+  var subtropical_tBio = (t0Bio.gte(12))
+  .multiply(t0Bio.lt(24));
+  
+  
+  return subtropical_tBio;
+};
+
+/*
+var cruTsTmp = ee.Image("users/philipaudebert/CRU/CRU407_1901-2022/cru_ts405_1901-2022_tmp");
+// Time series of CRU monthly precipitation bands since 1901
+var cruTsPre = ee.Image("users/philipaudebert/CRU/CRU407_1901-2022/cru_ts405_1901-2022_pre");
+var cruTsFr = ee.Image("users/philipaudebert/CRU/CRU407_1901-2022/cru_ts405_1901-2022_frs");
+var elevation = ee.Image("USGS/GTOPO30").rename('elevation').select('elevation');
+Map.addLayer(subtropical(cruTsPre, cruTsTmp, cruTsFr, elevation,  1961,1990))
+*/
+
+exports = {
+		classification : subtropical,
+};

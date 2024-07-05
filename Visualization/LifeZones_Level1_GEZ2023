@@ -1,0 +1,212 @@
+/////////////////////////////////////////////////////////////////////////////
+/////////////////////////// Holdridge Life Zones/////////////////////////////
+/////////////////////////////////////////////////////////////////////////////
+ 
+// Dataset used is CRU TS v. 4.07
+// We used the Holdridge Life Zone ecology classification from Holdridge 1967
+// https://reddcr.go.cr/sites/default/files/centro-de-documentacion/holdridge_1966_-_life_zone_ecology.pdf
+// Based on data from CRU TS 4.05
+
+var hlz;
+
+// Mean Monthly Temperature
+var holdridgeLifeZones = function(startYear, endYear) {
+	hlz = hlz || require("users/philipaudebert/GEZ:ClimateClassifications/Holdridge/Product/LifeZones");
+	return hlz.classification(startYear, endYear);
+	};
+
+var gez2023 = function (startYear, endYear) {
+  var hlzc = holdridgeLifeZones(startYear, endYear).remap([
+  111, 112, 113, 114, 115, 116, 117, 118,
+  121, 122, 123, 124, 125, 126, 127,
+  131, 132, 133, 134, 135, 136, 137,
+  141, 142, 143, 144, 145, 146,
+  151, 152, 153, 154, 155,
+  161, 162, 163, 164, 
+  171,
+  211, 212, 213, 214, 215, 216, 217,
+  221, 222, 223, 224, 225, 226, 227,
+  231, 232, 233, 234, 245, 236,
+  241, 242, 243, 244, 245,
+  251, 252, 253, 254, 
+  261,
+  311, 312, 313, 314, 315, 316, 317,
+  321, 322, 323, 324, 325, 326,
+  331, 332, 333, 334, 335,
+  341, 342, 343, 344,
+  351,
+  411, 412, 413, 414, 415, 416,
+  421, 422, 423, 424, 425,
+  431, 432, 433, 434, 
+  441,
+  511, 512, 513, 514, 515,
+  521, 522, 523, 524, 
+  531,
+  611, 612, 613, 614, 
+  631,
+  711,
+  ],
+  [
+  11, 11, 12, 13, 13, 14, 14, 15,
+  21, 21, 22, 23, 24, 24, 25,
+  31, 31, 32, 33, 34, 34, 35,
+  41, 41, 42, 43, 43, 44,
+  51, 51, 52, 53, 54,
+  61, 61, 62, 63, 
+  71,
+  21, 21, 22, 23, 24, 24, 25,
+  31, 31, 32, 33, 34, 34, 35,
+  41, 41, 42, 43, 43, 44,
+  51, 51, 52, 53, 54,
+  61, 61, 62, 63, 
+  71,
+  31, 31, 32, 33, 34, 34, 35,
+  41, 41, 42, 43, 43, 44,
+  51, 51, 52, 53, 54,
+  61, 61, 62, 63, 
+  71,
+  41, 41, 42, 43, 43, 44,
+  51, 51, 52, 53, 54,
+  61, 61, 62, 63, 
+  71,
+  51, 51, 52, 53, 54,
+  61, 61, 62, 63, 
+  71,
+  61, 61, 62, 63, 
+  71,
+  71,
+    ]);
+    return hlzc
+};
+Map.addLayer(gez2023(1991, 2020), {}, 'final', 0); 
+
+var sld_intervals =
+'<RasterSymbolizer>' +
+  '<ColorMap type="intervals" extended="false">' +
+    '<ColorMapEntry color="#C71D31" quantity="11" label="Tropical rainforest"/>' +
+    '<ColorMapEntry color="#D64758" quantity="12" label="Tropical moist forest"/>' +
+    '<ColorMapEntry color="#E37280" quantity="13" label="Tropical dry forest"/>' +
+    '<ColorMapEntry color="#EEA0A9" quantity="14" label="Tropical shrubland"/>' +
+    '<ColorMapEntry color="#F7CED3" quantity="15" label="Tropical desert"/>' + 
+    
+    '<ColorMapEntry color="#F17C1D" quantity="21" label="Subtropical rain forest"/>' +
+    '<ColorMapEntry color="#F89646" quantity="22" label="Subtropical moist forest"/>' +
+    '<ColorMapEntry color="#FDB071" quantity="23" label="Subtropical dry forest"/>' +
+    '<ColorMapEntry color="#FFCA9E" quantity="24" label="Subtropical shrubland"/>' +
+    '<ColorMapEntry color="#FFE4CE" quantity="25" label="Subtropical desert"/>' +
+    
+    '<ColorMapEntry color="#FFDD00" quantity="31" label="Temperate rain forest"/>' +
+    '<ColorMapEntry color="#FFE833" quantity="32" label="Temperate moist forest"/>' +
+    '<ColorMapEntry color="#FFF066" quantity="33" label="Temperate dry forest"/>' +
+    '<ColorMapEntry color="#FFF799" quantity="34" label="Temperate shrubland"/>' +
+    '<ColorMapEntry color="#FFFCCC" quantity="35" label="Temperate desert"/>' +
+    
+    '<ColorMapEntry color="#74A900" quantity="41" label="Cool Temperate rain/wet forest"/>' +
+    '<ColorMapEntry color="#9BC444" quantity="42" label="Cool Temperate moist forst"/>' +
+    '<ColorMapEntry color="#C0DC88" quantity="43" label="Cool Temperate steppe"/>' +
+    '<ColorMapEntry color="#E5F1CC" quantity="44" label="Cool Temperate desert"/>' +
+    
+    '<ColorMapEntry color="#009F49" quantity="51" label="Boreal rain/wet forest"/>' +
+    '<ColorMapEntry color="#44BD79" quantity="52" label="Boreal moist forest"/>' +
+    '<ColorMapEntry color="#88D7AA" quantity="53" label="Boreal dry scrub"/>' +
+    '<ColorMapEntry color="#CCEFDA" quantity="54" label="Boreal desert"/>' +
+    
+    '<ColorMapEntry color="#0088D6" quantity="61" label="Subpolar rain/wet tundra"/>' +
+    '<ColorMapEntry color="#66B9ED" quantity="62" label="Subpolar moist tundra"/>' +
+    '<ColorMapEntry color="#CCE8FB" quantity="63" label="Subpolar dry tundra"/>' +
+    
+    '<ColorMapEntry color="#1451a0" quantity="71" label="Polar"/>' +
+  '</ColorMap>' +
+'</RasterSymbolizer>';
+
+Map.addLayer(gez2023(1901, 1930).sldStyle(sld_intervals), {}, 'GEZ');
+Map.addLayer(gez2023(1931, 1960).sldStyle(sld_intervals), {}, 'GEZ');
+Map.addLayer(gez2023(1961, 1990).sldStyle(sld_intervals), {}, 'GEZ');
+Map.addLayer(gez2023(1991, 2020).sldStyle(sld_intervals), {}, 'GEZ');
+
+//// Create Legend
+
+function createLegend() {
+    var legend = ui.Panel({
+    style: {
+      maxHeight: '800px',
+      position: 'bottom-right',
+      padding: '8px 15px'
+    }
+  });
+
+  // Create legend title
+  var legendTitle = ui.Label({
+    value: 'Holdridge Life Zones',
+    style: {
+      fontWeight: 'bold',
+      fontSize: '18px',
+      margin: '0 0 4px 0',
+      padding: '0'
+      }
+  });
+  
+   // Add the title to the panel
+  legend.add(legendTitle); 
+
+  // Creates and styles 1 row of the legend.
+  var makeRow = function(color, name) {
+ 
+      // Create the label that is actually the colored box.
+      var colorBox = ui.Label({
+        style: {
+          backgroundColor: '#' + color,
+          // Use padding to give the box height and width.
+          padding: '8px',
+          margin: '0 0 4px 0'
+        }
+      });
+ 
+      // Create the label filled with the description text.
+      var description = ui.Label({
+        value: name,
+        style: {margin: '0 0 4px 6px'}
+      });
+ 
+      // return the panel
+      return ui.Panel({
+        widgets: [colorBox, description],
+        layout: ui.Panel.Layout.Flow('horizontal')
+      });
+};
+
+
+var palette = [
+'C71D31','D64758','E37280','EEA0A9','F7CED3',
+'F17C1D','F89646','FDB071','FFCA9E','FFE4CE',
+'FFDD00','FFE833','FFF066','FFF799','FFFCCC',
+'74A900','9BC444', 'C0DC88','E5F1CC',
+'009F49','44BD79', '88D7AA','CCEFDA',
+'0088D6','66B9ED', 'CCE8FB',
+'1451a0']; 
+
+
+// name of the legend
+var names = ["Tropical rainforest","Tropical moist forest","Tropical dry forest", "Tropical shrubland","Tropical desert","Subtropical rain forest","Subtropical moist forest","Subtropical dry forest","Subtropical steppe/shrubland","Subtropical desert","Warm Temperate rain/wet forest","Warm Temperate moist forest","Warm Temperate dry forest","Warm Temperate steppe/shrubland","Warm Temperate desert","Cool Temperate rain/wet forest","Cool Temperate moist forest","Cool Temperate steppe","Cool Temperate desert", "Boreal rain/wet forest", "Boreal moist forest", "Boreal dry scrub", "Boreal desert", "Subpolar rain/wet tundra", "Subpolar moist tundra", "Subpolar dry tundra", "Polar desert"];
+  
+  // Add color and and names
+for (var i = 0; i < 27; i++) {
+  legend.add(makeRow(palette[i], names[i]));
+  }  
+  return legend;
+}
+Map.add(createLegend());
+
+
+/*
+var region = ee.Geometry.Rectangle([-180, -90, 180, 90]);
+Export.image.toDrive({
+  image: gez2023(1991, 2020),
+  description: 'gez2023',
+  scale: 1000,
+  fileFormat: 'GeoTIFF',
+  maxPixels: 1e13
+});
+
+*/
+

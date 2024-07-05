@@ -1,0 +1,135 @@
+var temp; 
+var meanTemp;
+
+// Temperature dataset from CRU, University of East Anglia
+var arrayToList = function (array) {return array.toList()};
+
+// Time series of CRU monthly temperature bands for period of interest
+var selectedDataset = function (image, startYear, endYear) {
+  
+  var bands = ee.Image(image).bandNames().length();
+  var periodMonths = (ee.Number(endYear).subtract(ee.Number(startYear)).add(1)).multiply(12);
+  
+  startYear = ee.Number(startYear).subtract(1900).multiply(12).subtract(11);
+  endYear = ee.Number(endYear).subtract(1900).multiply(12);
+
+  var bandSequence = ee.Array(ee.List.sequence(1, bands, 1)).toInt();
+  var renamedBands = arrayToList(bandSequence).map(function (number) { return ee.String(number); });
+
+  var bandSelection = ee.Array(ee.List.sequence(startYear, endYear, 1)).toInt();
+  var selectedBands = arrayToList(bandSelection).map(function (number) { return ee.String(number); });
+
+  var yearSequence = ee.Array(ee.List.sequence(1, periodMonths, 1)).toInt();
+  var renamedYears = arrayToList(yearSequence).map(function (number) { return ee.String(number); });
+  var cruSelectedDataset = image.rename(renamedBands).select(selectedBands).rename(renamedYears);
+  
+  return cruSelectedDataset;
+};
+
+// Mean reducer
+var meanDataset = function (image, startYear, endYear) {
+  return selectedDataset(image, startYear, endYear)
+  .reduce({
+    reducer: ee.Reducer.mean()
+  });
+}; 
+
+// Sum reducer
+var summedDataset = function (image, startYear, endYear) {
+  return selectedDataset(image, startYear, endYear)
+  .reduce({
+    reducer: ee.Reducer.sum()
+  });
+};
+
+// Mean Monthly aggregates
+var meanMonthlyDataset = function (image, startYear, endYear) {
+  var calendarMonths = ee.List.sequence(1, 12, 1); // map over each calendar month (jan=1, feb=2, ..., dec=12)
+  var mappedImages = ee.List(calendarMonths).map(function (caldendarMonth) {
+    var periodMonths = (ee.Number(endYear).subtract(ee.Number(startYear)).add(1)).multiply(12);
+    var month = ee.Array(ee.List.sequence(caldendarMonth, periodMonths, 12)).toInt();
+    var monthBands = arrayToList(month).map(function (number) { return ee.String(number); });
+    var cruMeanMonthlyDataset = selectedDataset(image, startYear, endYear).select(monthBands).reduce(ee.Reducer.mean());
+    return cruMeanMonthlyDataset;
+    });
+  return ee.ImageCollection.fromImages(mappedImages);
+};
+
+
+// Calculate PET for February
+var petFebruary = function (image, startYear, endYear) {
+
+  // Function to estimate the number of leap years in a given period
+  var isLeapYear = function (year) {
+    return ((year % 4 == 0) && (year % 100 != 0)) || (year % 400 == 0) ? 1 : 0;}
+  
+  var getLeapYears = function (startYear, endYear) {
+      var leapYears = [];
+      for(var i = startYear; i <= endYear; i++){
+          if(isLeapYear(i)){
+              leapYears.push(i);
+          }
+      }
+      return leapYears;
+  };
+  var arrayToList = function (array) {return array.toList()};
+  
+  ////////////////////////// This if condition is important: if there are no leap years, then only use ordinary 28 days for february
+  var bands = selectedDataset(image, startYear, endYear).bandNames().length();
+  var periodMonths = (ee.Number(endYear).subtract(ee.Number(startYear)).add(1)).multiply(12);
+
+  var sequenceOrdinaryYears = ee.List.sequence(ee.Number(1), bands, 12);
+
+  var result;
+  // The If condition first verifies whether there are leap years. If this is not the case, the ordinary 28 days are used.
+  if (getLeapYears(startYear,endYear).length === 0) {
+    
+    var ordinaryYearPET = ee.List(sequenceOrdinaryYears).map(function (months) {
+      return selectedDataset(image, startYear, endYear).select(ee.List([months])).multiply(28).rename('monthlySum');
+    });
+    
+    return ee.ImageCollection.fromImages(ordinaryYearPET).mean();
+    
+  // Since there are leap years under this condition, the leap months must be multiplied by 29, while the ordinary ones must be multiplied by 28.
+  } else { 
+      var leapYearsForPeriod = ee.Number(ee.List(arrayToList(ee.Array(getLeapYears(startYear,endYear)))).get(0));  // use array values if there is an array
+      // adjust the leap Months in dataset for the difference in startYear
+      var adjustedStartYearLeapMonths = ee.Number(1).add(ee.Number(leapYearsForPeriod).subtract(ee.Number(startYear)).multiply(12));
+      var leapMonths = ee.List.sequence(adjustedStartYearLeapMonths, bands, 48);
+      var leapMonthsArray = ee.Array(leapMonths).toInt();
+      var februaryLeapYears = arrayToList(leapMonthsArray).map(function (number) { return ee.String(number); });
+    
+      
+      // calculate PET for February in leap years
+      var leapYearPET = ee.List(februaryLeapYears).map(function (leapYears) {
+        return selectedDataset(image, startYear, endYear).select(ee.List([leapYears])).multiply(29).rename('monthlySum');
+      });
+      
+      // calculate PET for February in ordinary years
+  
+      var nonLeapMonthsInLeapPeriod = sequenceOrdinaryYears.map(function (item) {
+          return ee.Algorithms.If(leapMonths.contains(item), null, item);
+      }).removeAll([null]);
+
+      var nonLeapYearInLeapPeriodPET = ee.List(nonLeapMonthsInLeapPeriod).map(function (nonleapYears) {
+        return selectedDataset(image, startYear, endYear).select(ee.List([nonleapYears])).multiply(28).rename('monthlySum');
+      });
+
+      var mergedPET = leapYearPET.cat(nonLeapYearInLeapPeriodPET);
+    
+
+      // assemble both and calculate the mean
+      var februaryLeapPET = ee.ImageCollection.fromImages(mergedPET);
+      return februaryLeapPET.mean();
+  }
+
+};
+
+exports = {
+		dataset : selectedDataset,
+		meanD : meanDataset,
+		sumD : summedDataset,
+		monthlyMeanD: meanMonthlyDataset,
+		petFeb: petFebruary
+};
+
