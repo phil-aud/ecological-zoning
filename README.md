@@ -5,8 +5,10 @@ This repository contains the Tiff files of the three aggregation levels of the H
 
 ## Image Descriptions
 - HLZ map—level III: a disaggregated map based on the original HLZs that includes all latitudinal regions and altitudinal belts with 107 classes 
-SLD interval data: 
-var sld_intervals_levelI =
+SLD interval data:
+
+
+```var sld_intervals_levelI =
 '<RasterSymbolizer>' +
   '<ColorMap type="intervals" extended="false">' +
     '<ColorMapEntry color="#C71D31" quantity="11" label="Tropical rainforest"/>' +
@@ -14,38 +16,35 @@ var sld_intervals_levelI =
     '<ColorMapEntry color="#E37280" quantity="13" label="Tropical dry forest"/>' +
     '<ColorMapEntry color="#EEA0A9" quantity="14" label="Tropical shrubland"/>' +
     '<ColorMapEntry color="#F7CED3" quantity="15" label="Tropical desert"/>' + 
-    
     '<ColorMapEntry color="#F17C1D" quantity="21" label="Subtropical rain forest"/>' +
     '<ColorMapEntry color="#F89646" quantity="22" label="Subtropical moist forest"/>' +
     '<ColorMapEntry color="#FDB071" quantity="23" label="Subtropical dry forest"/>' +
     '<ColorMapEntry color="#FFCA9E" quantity="24" label="Subtropical shrubland"/>' +
     '<ColorMapEntry color="#FFE4CE" quantity="25" label="Subtropical desert"/>' +
-    
     '<ColorMapEntry color="#FFDD00" quantity="31" label="Temperate rain forest"/>' +
     '<ColorMapEntry color="#FFE833" quantity="32" label="Temperate moist forest"/>' +
     '<ColorMapEntry color="#FFF066" quantity="33" label="Temperate dry forest"/>' +
     '<ColorMapEntry color="#FFF799" quantity="34" label="Temperate shrubland"/>' +
     '<ColorMapEntry color="#FFFCCC" quantity="35" label="Temperate desert"/>' +
-    
     '<ColorMapEntry color="#74A900" quantity="41" label="Cool Temperate rain/wet forest"/>' +
     '<ColorMapEntry color="#9BC444" quantity="42" label="Cool Temperate moist forst"/>' +
     '<ColorMapEntry color="#C0DC88" quantity="43" label="Cool Temperate steppe"/>' +
     '<ColorMapEntry color="#E5F1CC" quantity="44" label="Cool Temperate desert"/>' +
-    
     '<ColorMapEntry color="#009F49" quantity="51" label="Boreal rain/wet forest"/>' +
     '<ColorMapEntry color="#44BD79" quantity="52" label="Boreal moist forest"/>' +
     '<ColorMapEntry color="#88D7AA" quantity="53" label="Boreal dry scrub"/>' +
     '<ColorMapEntry color="#CCEFDA" quantity="54" label="Boreal desert"/>' +
-    
     '<ColorMapEntry color="#0088D6" quantity="61" label="Subpolar rain/wet tundra"/>' +
     '<ColorMapEntry color="#66B9ED" quantity="62" label="Subpolar moist tundra"/>' +
     '<ColorMapEntry color="#CCE8FB" quantity="63" label="Subpolar dry tundra"/>' +
-    
     '<ColorMapEntry color="#1451a0" quantity="71" label="Polar"/>' +
   '</ColorMap>' +
 '</RasterSymbolizer>';
+```
+
 - HLZ map—level II: aggregated along latitudinal regions and where altitudinal belts become latitudinal equivalents with 38 classes 
-var sld_intervals_levelII =
+
+```var sld_intervals_levelII =
 '<RasterSymbolizer>' +
   '<ColorMap type="intervals" extended="false">' +
     '<ColorMapEntry color="#ce1d09" quantity="111" label="Tropical Rain Forest"/>' +
@@ -86,7 +85,6 @@ var sld_intervals_levelII =
     '<ColorMapEntry color="#88D9EC" quantity="163" label="Tropical Alpine Moist Tundra"/>' +
     '<ColorMapEntry color="#CCEFF7" quantity="164" label="Tropical Alpine Desert"/>'+
     '<ColorMapEntry color="#1451a0" quantity="171" label="Tropical Nival Desert"/>' +
-    
     '<ColorMapEntry color="#f19137" quantity="211" label="Subtropical Rain Forest"/>' +
     '<ColorMapEntry color="#F3A052" quantity="212" label="Subtropical Wet Forest"/>' +
     '<ColorMapEntry color="#F5AE6C" quantity="213" label="Subtropical Moist Forest"/>' +
@@ -117,7 +115,6 @@ var sld_intervals_levelII =
     '<ColorMapEntry color="#88D9EC" quantity="253" label="Subtropical Alpine Moist Tundra"/>' +
     '<ColorMapEntry color="#CCEFF7" quantity="254" label="Subtropical Alpine Desert"/>'+
     '<ColorMapEntry color="#1451a0" quantity="261" label="Subtropical Nival Desert"/>' +
-    
     '<ColorMapEntry color="#ffde4a" quantity="311" label="Warm Temperate Rain Forest"/>' +
     '<ColorMapEntry color="#FFE262" quantity="312" label="Warm Temperate Wet Forest"/>' +
     '<ColorMapEntry color="#FFE77A" quantity="313" label="Warm Temperate Moist Forest"/>' +
@@ -141,7 +138,6 @@ var sld_intervals_levelII =
     '<ColorMapEntry color="#88D9EC" quantity="343" label="Warm Temperate Alpine Moist Tundra"/>' +
     '<ColorMapEntry color="#CCEFF7" quantity="344" label="Warm Temperate Alpine Desert"/>'+
     '<ColorMapEntry color="#1451a0" quantity="351" label="Warm Temperate Nival Desert"/>' +
-    
     '<ColorMapEntry color="#9ec200" quantity="411" label="Cool Temperate Rain Forest"/>' +
     '<ColorMapEntry color="#AECC29" quantity="412" label="Cool Temperate Wet Forest"/>' +
     '<ColorMapEntry color="#BDD652" quantity="413" label="Cool Temperate Moist Forest"/>' +
@@ -158,7 +154,6 @@ var sld_intervals_levelII =
     '<ColorMapEntry color="#88D9EC" quantity="433" label="Cool Temperate Alpine Moist Tundra"/>' +
     '<ColorMapEntry color="#CCEFF7" quantity="434" label="Cool Temperate Alpine Desert"/>'+
     '<ColorMapEntry color="#1451a0" quantity="441" label="Cool Temperate Nival Desert"/>' +
-    
     '<ColorMapEntry color="#009837" quantity="511" label="Boreal Rain Forest"/>' +
     '<ColorMapEntry color="#33AD5F" quantity="512" label="Boreal Wet Forest"/>' +
     '<ColorMapEntry color="#66C187" quantity="513" label="Boreal Moist Forest"/>' +
@@ -169,19 +164,18 @@ var sld_intervals_levelII =
     '<ColorMapEntry color="#88D9EC" quantity="523" label="Boreal Alpine Moist Tundra"/>' +
     '<ColorMapEntry color="#CCEFF7" quantity="524" label="Boreal Alpine Desert"/>'+
     '<ColorMapEntry color="#1451a0" quantity="531" label="Boreal Nival Desert"/>' +
-    
     '<ColorMapEntry color="#00add6" quantity="611" label="Subpolar Rain Tundra"/>' +
     '<ColorMapEntry color="#44C3E1" quantity="612" label="Subpolar Wet Tundra"/>' +
     '<ColorMapEntry color="#88D9EC" quantity="613" label="Subpolar Moist Tundra"/>' +
     '<ColorMapEntry color="#CCEFF7" quantity="614" label="Subpolar Desert"/>'+
     '<ColorMapEntry color="#1451a0" quantity="621" label="Subpolar Nival Desert"/>' +
-    
     '<ColorMapEntry color="#1451a0" quantity="711" label="Polar"/>' +
-    
   '</ColorMap>' +
 '</RasterSymbolizer>';
+```
 - HLZ map—level I: a fully aggregated HLZ map that is a further simplification of Holdridge’s life zone map to achieve classes similar to GEZ 2010 that could be useful to the IPCC.
-var sld_intervals_levelIII =
+
+```var sld_intervals_levelIII =
 '<RasterSymbolizer>' +
   '<ColorMap type="intervals" extended="false">' +
     '<ColorMapEntry color="#ce1d09" quantity="111" label="Tropical Rain Forest"/>' +
@@ -222,7 +216,6 @@ var sld_intervals_levelIII =
     '<ColorMapEntry color="#88D9EC" quantity="163" label="Tropical Alpine Moist Tundra"/>' +
     '<ColorMapEntry color="#CCEFF7" quantity="164" label="Tropical Alpine Desert"/>'+
     '<ColorMapEntry color="#1451a0" quantity="171" label="Tropical Nival Desert"/>' +
-    
     '<ColorMapEntry color="#f19137" quantity="211" label="Subtropical Rain Forest"/>' +
     '<ColorMapEntry color="#F3A052" quantity="212" label="Subtropical Wet Forest"/>' +
     '<ColorMapEntry color="#F5AE6C" quantity="213" label="Subtropical Moist Forest"/>' +
@@ -253,7 +246,6 @@ var sld_intervals_levelIII =
     '<ColorMapEntry color="#88D9EC" quantity="253" label="Subtropical Alpine Moist Tundra"/>' +
     '<ColorMapEntry color="#CCEFF7" quantity="254" label="Subtropical Alpine Desert"/>'+
     '<ColorMapEntry color="#1451a0" quantity="261" label="Subtropical Nival Desert"/>' +
-    
     '<ColorMapEntry color="#ffde4a" quantity="311" label="Warm Temperate Rain Forest"/>' +
     '<ColorMapEntry color="#FFE262" quantity="312" label="Warm Temperate Wet Forest"/>' +
     '<ColorMapEntry color="#FFE77A" quantity="313" label="Warm Temperate Moist Forest"/>' +
@@ -277,7 +269,6 @@ var sld_intervals_levelIII =
     '<ColorMapEntry color="#88D9EC" quantity="343" label="Warm Temperate Alpine Moist Tundra"/>' +
     '<ColorMapEntry color="#CCEFF7" quantity="344" label="Warm Temperate Alpine Desert"/>'+
     '<ColorMapEntry color="#1451a0" quantity="351" label="Warm Temperate Nival Desert"/>' +
-    
     '<ColorMapEntry color="#9ec200" quantity="411" label="Cool Temperate Rain Forest"/>' +
     '<ColorMapEntry color="#AECC29" quantity="412" label="Cool Temperate Wet Forest"/>' +
     '<ColorMapEntry color="#BDD652" quantity="413" label="Cool Temperate Moist Forest"/>' +
@@ -294,8 +285,6 @@ var sld_intervals_levelIII =
     '<ColorMapEntry color="#88D9EC" quantity="433" label="Cool Temperate Alpine Moist Tundra"/>' +
     '<ColorMapEntry color="#CCEFF7" quantity="434" label="Cool Temperate Alpine Desert"/>'+
     '<ColorMapEntry color="#1451a0" quantity="441" label="Cool Temperate Nival Desert"/>' +
-     
-     
     '<ColorMapEntry color="#009837" quantity="511" label="Boreal Rain Forest"/>' +
     '<ColorMapEntry color="#33AD5F" quantity="512" label="Boreal Wet Forest"/>' +
     '<ColorMapEntry color="#66C187" quantity="513" label="Boreal Moist Forest"/>' +
@@ -306,18 +295,15 @@ var sld_intervals_levelIII =
     '<ColorMapEntry color="#88D9EC" quantity="523" label="Boreal Alpine Moist Tundra"/>' +
     '<ColorMapEntry color="#CCEFF7" quantity="524" label="Boreal Alpine Desert"/>'+
     '<ColorMapEntry color="#1451a0" quantity="531" label="Boreal Nival Desert"/>' +
-    
     '<ColorMapEntry color="#00add6" quantity="611" label="Subpolar Rain Tundra"/>' +
     '<ColorMapEntry color="#44C3E1" quantity="612" label="Subpolar Wet Tundra"/>' +
     '<ColorMapEntry color="#88D9EC" quantity="613" label="Subpolar Moist Tundra"/>' +
     '<ColorMapEntry color="#CCEFF7" quantity="614" label="Subpolar Desert"/>'+
     '<ColorMapEntry color="#1451a0" quantity="621" label="Subpolar Nival Desert"/>' +
-    
     '<ColorMapEntry color="#1451a0" quantity="711" label="Polar"/>' +
-
   '</ColorMap>' +
 '</RasterSymbolizer>';
-
+```
 ## Source
 Audebert, P., Milne, E., Schiettecatte, LS. et al. Ecological zoning for climate policy and global change studies. Nat Sustain 7, 1294–1303 (2024). https://doi.org/10.1038/s41893-024-01416-5
 
